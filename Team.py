@@ -4,12 +4,10 @@ class Team:
         self.employees = []
         self.projects = []
 
-
         raise NotImplementedError
 
     def add_manager(self, manager):
         self.managers.append(manager)
-
 
     def add_employee(self, employee):
         self.employees.append(employee)
