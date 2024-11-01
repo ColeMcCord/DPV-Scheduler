@@ -26,3 +26,11 @@ class Project:
     def update(self):
         raise NotImplementedError
 
+
+    class Timeline:
+        # Project timeline
+
+        def __init__(self):
+            raise NotImplementedError
+
+

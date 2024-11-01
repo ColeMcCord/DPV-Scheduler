@@ -47,4 +47,16 @@ class Manager(User):
 
 
 class Employee(User):
-    raise NotImplementedError
+
+    def __init__(self):
+        self.competencies = []
+        raise NotImplementedError
+
+    def add_competency(self):
+        raise NotImplementedError
+
+    def remove_competency(self):
+        raise NotImplementedError
+
+
+
