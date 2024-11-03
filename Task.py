@@ -25,6 +25,9 @@ class Task:
     def get_length(self):
         return self.length
 
+    def set_length(self, length):
+        self.length = length
+
     def get_owners(self):
         return self.owners
 
@@ -36,9 +39,13 @@ class Task:
 class Story_Task(Task):
     # Tasks measured in story points
     def __init__(self, story_points):
+        super()
         self.story_points = story_points
 
         raise NotImplementedError
+
+    def get_points(self):
+        return self.story_points
 
     def vote_on_difficulty(self, owner, points):
         # An employee can determine how difficult they think a task will be
