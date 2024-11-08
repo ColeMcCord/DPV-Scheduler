@@ -44,7 +44,7 @@ class StoryPointsTeam(Team):
         raise NotImplementedError
 
 
-    def recalculate_velocity(self):
+    def recalculate_velocity_geometric(self):
         # uses geometric function to calculate velocity
         n = len(self.sprints) - 1
         count = 1
@@ -55,6 +55,14 @@ class StoryPointsTeam(Team):
                 count -= 1
             self.story_point_velocity += s * math.pow(0.5, count)
             count += 1
+
+    def recalculate_velocity_average(self, num_sprints=6):
+        if len(self.sprints) <= num_sprints:
+            num_sprints = len(self.sprints) - 1
+            self.story_point_velocity = 0
+            self.story_point_velocity = sum(sum(sprint.get_points() for sprint in self.sprints[i]) for i in range(len(self.sprints - 1, self.sprints - 1 - num_sprints, -1))) / num_sprints
+
+
 
 
 
