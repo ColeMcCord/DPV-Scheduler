@@ -6,6 +6,7 @@ class Task:
         self.length = length
         self.owners = set()
         self.prerequisites = set()
+        self.proclivities = set()
 
     def add_owner(self, owner: User):
         self.owners.add(owner)
