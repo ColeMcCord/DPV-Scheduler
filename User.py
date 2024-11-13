@@ -39,8 +39,10 @@ class Manager(User):
 
 
     def get_salary(self, employee):
-        if self.can_see_salaries = False:
-            raise
+        if self.can_see_salaries == False:
+            raise InvalidAccessError
+        else:
+            return employee.salary
 
 
     raise NotImplementedError
@@ -49,14 +51,46 @@ class Manager(User):
 class Employee(User):
 
     def __init__(self):
-        self.competencies = []
+        self.competencies = set()
+        self.team = None
+        self.current_task = None
         raise NotImplementedError
 
-    def add_competency(self):
-        raise NotImplementedError
+    def add_competency(self, competency):
+        self.competencies.add(competency)
 
-    def remove_competency(self):
-        raise NotImplementedError
+    def remove_competency(self, competency):
+        self.competencies.remove(competency)
+
+    def complete_current_task(self):
+        self.current_task = None
+        self.current_task.get_project().finish_task(self.current_task)
+
+    def change_task(self, task=None):
+        if task:
+            self.
+
+
+    # Take another person's task
+    def take_task(self, task):
+        self.
+
+
+
+    def complete_task(self, task):
+        task.project.finish_task(task)
+
+    def remove_task(self):
+        self.current_task
+
+    def get_task(self):
+        i
+
+        for task in self.team.get_project().get_avaliable_tasks():
+            for competency in task.get_competencies():
+                if competency in self.competencies:
+                    self.current_task = self.team.get_project().move_task_to_in_progress(task)
+
 
 
 

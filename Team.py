@@ -29,6 +29,9 @@ class Team:
     def remove_project(self, project):
         self.projects.remove(project)
 
+    # Gets the current project the team is working on
+    def get_project(self):
+        raise NotImplementedError
 
     def start_sprint(self):
         self.sprints.append([])

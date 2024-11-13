@@ -24,6 +24,13 @@ class Project:
         self.length = 0
 
         self.availiable_tasks = set()
+        self.in_progress_tasks = set()
+
+    def get_availiable_tasks(self):
+        return self.availiable_tasks
+
+    def move_task_to_in_progress(self, task):
+        self.in_progress_tasks.add(task)
 
     def add_task(self, task):
         self.task_list.append(task)
@@ -55,6 +62,8 @@ class Project:
             if task in t.get_prerequisites():
                 t.remove_prerequisite(task)
         self.task_list.remove(task)
+        if task in self.in_progress_tasks:
+            self.in_progress_tasks.remove(task)
         self.update()
 
     def finish_task(self, task):
@@ -70,7 +79,7 @@ class Project:
         self.sort_tasks()
         self.availiable_tasks = set()
         for task in self.task_list:
-            if len(task.get_prerequisites()) == 0:
+            if len(task.get_prerequisites()) == 0 and task not in self.in_progress_tasks:
                 self.availiable_tasks.add(task)
 
     def get_length(self):

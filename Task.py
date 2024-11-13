@@ -6,7 +6,18 @@ class Task:
         self.length = length
         self.owners = set()
         self.prerequisites = set()
-        self.proclivities = set()
+        self.competencies = set()
+        self.project = None
+
+    def add_competency(self, competency):
+        self.competencies.add(competency)
+
+    def remove_competency(self, competency):
+        self.competencies.remove(competency)
+
+    def get_competencies(self):
+        return self.competencies
+
 
     def add_owner(self, owner: User):
         self.owners.add(owner)
@@ -34,6 +45,10 @@ class Task:
 
     def get_prerequisites(self):
         return self.prerequisites
+
+
+    def get_project(self):
+        return self.project
 
 
 
