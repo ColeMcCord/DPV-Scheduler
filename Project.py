@@ -31,6 +31,11 @@ class Project:
 
     def move_task_to_in_progress(self, task):
         self.in_progress_tasks.add(task)
+        self.availiable_tasks.remove(task)
+
+    def remove_task_from_in_progress(self, task):
+        self.in_progress_tasks.remove(task)
+        self.availiable_tasks.add(task)
 
     def add_task(self, task):
         self.task_list.append(task)
@@ -69,6 +74,10 @@ class Project:
     def finish_task(self, task):
         # TODO:
         # Deal with how this affects user
+        if task in self.in_progress_tasks:
+            self.in_progress_tasks.remove(task)
+        if task in self.availiable_tasks:
+            self.availiable_tasks.remove(task)
         self.remove_task(task)
         self.finished_tasks.append(task)
 
