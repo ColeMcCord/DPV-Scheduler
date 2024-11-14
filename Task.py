@@ -7,7 +7,6 @@ class Task:
         self.length = 0
         self.prerequisites = set()
         self.competencies = set()
-        self.project = None
 
     def add_competency(self, competency):
         self.competencies.add(competency)
