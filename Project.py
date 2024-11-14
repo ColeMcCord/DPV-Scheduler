@@ -1,3 +1,4 @@
+import Company
 class InfiniteValueError(Exception):
     def __str__(self):
         return "This project has infinite value. Please refer problem to admin"
@@ -11,20 +12,19 @@ class RecursionError(Exception):
         return f"{self.task} is its own prerequisite. Please modify project task dependencies before sorting tasks."
 
 class Project:
-    def __init__(self, name, team, company):
+    def __init__(self, name):
         self.name = name
-        self.team = team
         self.task_list = []
         self.finished_tasks = []
         self.required_by = None
         self.growth_rate = 0
         self.instant_return = 0
         self.continous_return = 0
-        self.company = company
         self.length = 0
-
+        self.company = Company.get_instance()
         self.availiable_tasks = set()
         self.in_progress_tasks = set()
+
 
     def get_availiable_tasks(self):
         return self.availiable_tasks
@@ -98,7 +98,7 @@ class Project:
     def get_DPV(self):
         temp = self.instant_return
         if self.continous_return > 0:
-            if self.company.required_rate_of_return == 0:
+            if self.company.get_required_rate_of_return == 0:
                 raise InfiniteValueError
-            temp += self.continous_return/(self.company.required_rate_or_return - self.growth_rate)
-        return temp * ((1 - self.company.required_rate_of_return) ** self.length)
+            temp += self.continous_return/(self.company.get_required_rate_or_return - self.growth_rate)
+        return temp * ((1 - self.company.get_required_rate_of_return) ** self.length)

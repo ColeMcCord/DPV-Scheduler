@@ -64,14 +64,3 @@ class StoryPointsTeam(Team):
             num_sprints = len(self.sprints) - 1
             self.story_point_velocity = 0
             self.story_point_velocity = sum(sum(sprint.get_points() for sprint in self.sprints[i]) for i in range(len(self.sprints - 1, self.sprints - 1 - num_sprints, -1))) / num_sprints
-
-
-
-
-
-
-
-
-
-
-

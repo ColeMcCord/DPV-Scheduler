@@ -3,8 +3,8 @@ class Task:
     def __init__(self, name, description=None, length=0):
         self.name = name
         self.description = description
-        self.length = length
-        self.owners = set()
+        # Fix Length!!!!!!!
+        self.length = 0
         self.prerequisites = set()
         self.competencies = set()
         self.project = None
@@ -17,13 +17,6 @@ class Task:
 
     def get_competencies(self):
         return self.competencies
-
-
-    def add_owner(self, owner: User):
-        self.owners.add(owner)
-
-    def remove_owner(self, owner: User):
-        self.owners.remove(owner)
 
     def add_prerequisite(self, task):
         self.prerequisites.add(task)
@@ -40,16 +33,8 @@ class Task:
     def set_length(self, length):
         self.length = length
 
-    def get_owners(self):
-        return self.owners
-
     def get_prerequisites(self):
         return self.prerequisites
-
-
-    def get_project(self):
-        return self.project
-
 
 
 class Story_Task(Task):
@@ -63,7 +48,7 @@ class Story_Task(Task):
     def get_points(self):
         return self.story_points
 
-    def vote_on_difficulty(self, owner, points):
+    def vote_on_difficulty(self, points):
         # An employee can determine how difficult they think a task will be
         raise NotImplementedError
 

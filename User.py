@@ -1,6 +1,9 @@
+import Company
 class TooManyTasksError(Exception):
     def __str__(self):
         return "You cannot have more than one current task"
+
+
 class InvalidAccessError(Exception):
     def __init__(self, type):
         self.type = type
@@ -8,12 +11,14 @@ class InvalidAccessError(Exception):
     def __str__(self):
         return f"You do not have access to do {self.type}"
 
+
 class InvalidTaskError(Exception):
     def __init__(self, task):
         self.task = task
 
     def __str__(self):
         return f"{self.task} is already owned by someone. You can only change to tasks that are currently availiable."
+
 
 class User:
     def __init__(self, name, salary=0):
@@ -30,28 +35,44 @@ class User:
         return self.name
 
 
-
 class Admin(User):
     def __init__(self, name, salary=0):
         super.__init__(name, salary)
+        self.company = Company.get_instance()
 
     def change_required_return(self, required_return):
+        self.company.update_required_rate_of_return(required_return)
+
+    def create_manager(self):
         raise NotImplementedError
+
+    def create_team(self):
+        raise NotImplementedError
+
+    def create_employee(self):
+        raise NotImplementedError
+
+    def create_admin(self):
+        raise NotImplementedError
+
 
 class Manager(User):
 
-
-    def __init__(self, name, can_see_salaries = True, salary=0):
+    def __init__(self, name, can_see_salaries=True, salary=0):
         self.can_see_salaries = can_see_salaries
         super.__init__(name, salary)
 
-
     def get_salary(self, employee):
-        if self.can_see_salaries == False:
+        if not self.can_see_salaries:
             raise InvalidAccessError
         else:
             return employee.salary
 
+    def assign_task(self, employee, task):
+        raise NotImplementedError
+
+    def create_project(self):
+        raise NotImplementedError
 
     raise NotImplementedError
 
@@ -62,6 +83,7 @@ class Employee(User):
         self.competencies = set()
         self.team = None
         self.current_task = None
+        self.can_add_tasks = True
         raise NotImplementedError
 
     def add_competency(self, competency):
@@ -102,7 +124,3 @@ class Employee(User):
                         self.current_task = task
                         self.team.get_project().move_task_to_in_progress(task)
                         return
-
-
-
-
