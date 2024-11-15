@@ -1,13 +1,20 @@
 import React from 'react';
-import './App.css';
-import Signup from './Signup'; // Import the Signup component
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Auth from './Auth';
+import EmployeeDashboard from './EmployeeDashboard.js';
+import ManagerDashboard from './ManagerDashboard.js';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Welcome to My Website</h1>
-      <Signup />  {/* Render the Signup component */}
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Auth />} />
+          <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
+          <Route path="/manager-dashboard" element={<ManagerDashboard />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
