@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { auth } from './firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+
+const db = getFirestore();
 
 function Signup() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    role: 'Employee' // Default role
   });
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -23,13 +27,21 @@ function Signup() {
     setError('');
     setMessage('');
     try {
+      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
-      setMessage('Account created successfully!');
-      console.log('User created:', userCredential.user);
+
+      // Store user role in Firestore
+      const user = userCredential.user;
+      await setDoc(doc(db, 'users', user.uid), {
+        email: formData.email,
+        role: formData.role
+      });
+
+      setMessage('Account created successfully with role: ' + formData.role);
     } catch (error) {
       setError(error.message);
     }
@@ -56,6 +68,14 @@ function Signup() {
             value={formData.password}
             onChange={handleChange}
           />
+        </div>
+        <div>
+          <label>Role:</label>
+          <select name="role" value={formData.role} onChange={handleChange}>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Employee">Employee</option>
+          </select>
         </div>
         {error && <p className="error">{error}</p>}
         {message && <p className="success">{message}</p>}
