@@ -11,3 +11,4 @@ def initialize_firebase():
 # Firestore client
 def get_firestore_client():
     return firestore.client()
+print("yay")
