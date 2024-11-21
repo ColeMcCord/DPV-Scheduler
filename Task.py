@@ -8,6 +8,9 @@ class Task:
         self.prerequisites = set()
         self.competencies = set()
 
+    def __str__(self):
+        return self.name
+
     def add_competency(self, competency):
         self.competencies.add(competency)
 

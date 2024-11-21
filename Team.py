@@ -3,13 +3,17 @@ import math
 
 class Team:
     def __init__(self):
+        self.current_project = None
         self.managers = set()
         self.employees = set()
         self.projects = set()
         # Finished tasks go in sprints
         self.sprints = []
 
-        raise NotImplementedError
+        # raise NotImplementedError
+
+    def get_project(self):
+        return min(self.projects, key=lambda x: x.get_DPV())
 
     def add_manager(self, manager):
         self.managers.add(manager)
@@ -19,6 +23,7 @@ class Team:
 
     def add_employee(self, employee):
         self.employees.add(employee)
+        employee.set_team(self)
 
     def remove_employee(self, employee):
         self.employees.remove(employee)
@@ -30,8 +35,7 @@ class Team:
         self.projects.remove(project)
 
     # Gets the current project the team is working on
-    def get_project(self):
-        raise NotImplementedError
+
 
     def start_sprint(self):
         self.sprints.append([])

@@ -21,7 +21,7 @@ class Project:
         self.instant_return = 0
         self.continous_return = 0
         self.length = 0
-        self.company = Company.get_instance()
+        self.company = Company.Company.get_instance()
         self.availiable_tasks = set()
         self.in_progress_tasks = set()
 
@@ -55,11 +55,17 @@ class Project:
                 dfs(prerequisite)
             topological_sort.append(task)
 
+        availiable_tasks = set()
         for task in self.task_list:
+            if task not in self.in_progress_tasks:
+                availiable_tasks.add(task)
             if task not in visited:
                 current = set()
                 dfs(task)
+
         self.task_list = topological_sort
+        self.availiable_tasks = availiable_tasks
+
         return self.task_list
 
     def remove_task(self, task):
@@ -98,7 +104,7 @@ class Project:
     def get_DPV(self):
         temp = self.instant_return
         if self.continous_return > 0:
-            if self.company.get_required_rate_of_return == 0:
+            if self.company.get_required_rate_of_return() == 0:
                 raise InfiniteValueError
-            temp += self.continous_return/(self.company.get_required_rate_or_return - self.growth_rate)
-        return temp * ((1 - self.company.get_required_rate_of_return) ** self.length)
+            temp += self.continous_return/(self.company.get_required_rate_or_return() - self.growth_rate)
+        return temp * ((1 - self.company.get_required_rate_of_return()) ** self.length)

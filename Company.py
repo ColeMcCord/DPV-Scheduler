@@ -3,7 +3,7 @@ class Company:
     def update_required_rate_of_return(self, rr):
         self.required_rate_of_return = rr
 
-# class Company:
+    # class Company:
     _instance = None  # Private class attribute to hold the single instance
 
     def __new__(cls, *args, **kwargs):

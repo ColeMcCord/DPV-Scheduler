@@ -37,8 +37,8 @@ class User:
 
 class Admin(User):
     def __init__(self, name, salary=0):
-        super.__init__(name, salary)
-        self.company = Company.get_instance()
+        super().__init__(name, salary)
+        self.company = Company.Company.get_instance()
 
     def change_required_return(self, required_return):
         self.company.update_required_rate_of_return(required_return)
@@ -59,8 +59,9 @@ class Admin(User):
 class Manager(User):
 
     def __init__(self, name, can_see_salaries=True, salary=0):
+        super().__init__(name, salary)
         self.can_see_salaries = can_see_salaries
-        super.__init__(name, salary)
+
 
     def get_salary(self, employee):
         if not self.can_see_salaries:
@@ -74,17 +75,21 @@ class Manager(User):
     def create_project(self):
         raise NotImplementedError
 
-    raise NotImplementedError
+    # raise NotImplementedError
 
 
 class Employee(User):
 
-    def __init__(self):
+    def __init__(self, name, salary):
+        super().__init__(name, salary)
         self.competencies = set()
         self.team = None
         self.current_task = None
         self.can_add_tasks = True
-        raise NotImplementedError
+        # raise NotImplementedError
+
+    def set_team(self, team):
+        self.team = team
 
     def add_competency(self, competency):
         self.competencies.add(competency)
@@ -94,6 +99,7 @@ class Employee(User):
 
     def complete_current_task(self):
         self.complete_task(self.current_task)
+        self.current_task = None
 
     def change_task(self, task=None):
         if task:
@@ -107,20 +113,34 @@ class Employee(User):
             self.get_task()
 
     def complete_task(self, task):
-        task.project.finish_task(task)
-        self.current_task = None
+        self.team.get_project().finish_task(task)
+        # self.current_task = None
 
     def remove_task(self):
         self.team.get_project().remove_task_from_in_progress(self.current_task)
         self.current_task = None
 
+    def add_task(self, task):
+        if self.can_add_tasks:
+            self.team.get_project().add_task(task)
+
+    #     Else Error!!!!
+
+
+
+    def get_current_task(self):
+        return self.current_task
     def get_task(self):
         if self.current_task:
             raise TooManyTasksError
         else:
-            for task in self.team.get_project().get_avaliable_tasks():
+            for task in self.team.get_project().get_availiable_tasks():
                 for competency in task.get_competencies():
                     if competency in self.competencies:
                         self.current_task = task
                         self.team.get_project().move_task_to_in_progress(task)
                         return
+            for task in self.team.get_project().get_availiable_tasks():
+                self.current_task = task
+                self.team.get_project().move_task_to_in_progress(task)
+                return
